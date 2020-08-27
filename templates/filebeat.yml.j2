@@ -14,17 +14,7 @@
 
 filebeat.inputs:
 {% for input in filebeat_inputs %}
-    - type: {{ input.type }}
-      enabled: {{ input.enabled }}
-    {% if input.fields is defined %}  
-      fields:
-          format: {{ input.fields.format }}
-          source: {{ input.fields.source }}
-    {% endif %}
-      paths:
-    {% for path in input.paths %}  
-      - {{ path }}
-    {% endfor %}
+    {{ input }}
 {% endfor %}    
 
 # ============================== Filebeat modules ==============================
