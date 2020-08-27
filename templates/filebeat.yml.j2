@@ -14,7 +14,7 @@
 
 filebeat.inputs:
 {% for input in filebeat_inputs %}
-    {{ input }}
+  - {{ input }}
 {% endfor %}    
 
 # ============================== Filebeat modules ==============================
