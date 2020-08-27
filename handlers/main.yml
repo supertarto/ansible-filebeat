@@ -1,2 +1,6 @@
 ---
-
+- name: Restart filebeat
+  service:
+    name: filebeat
+    state: restarted
+    enabled: true

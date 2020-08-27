@@ -1,2 +1,45 @@
 ---
+- name: Set filebeat_major_version
+  set_fact: "filebeat_major_version={{ filebeat_version.split('.')[0] }}.x"
+  when: filebeat_major_version is undefined
 
+- name: Install pre-requisite
+  package:
+    name: [ca-certificates, apt-transport-https, curl, gpg]
+    state: present
+
+- name: Add filebeat repository key
+  apt_key:
+    url: '{{ filebeat_apt_key }}'
+    id: '{{ filebeat_apt_key_id }}'
+    state: present
+
+- name: Add filebeat repository
+  apt_repository:
+    repo: '{{ filebeat_apt_url }}'
+    state: present
+    mode: "0644"
+
+- name: Ensure filebeat is installed
+  apt:
+    name: '{{ filebeat_package_name }}'
+    state: present
+    allow_unauthenticated: "{{ 'no' if filebeat_apt_key else 'yes' }}"
+    cache_valid_time: 86400
+  register: filebeat_debian_install_from_repo
+  notify: Restart filebeat
+
+- name: Hold filebeat version
+  dpkg_selections:
+    name: "{{ filebeat_package_name }}"
+    selection: "hold"
+  when: filebeat_version_lock
+
+- name: Copy Configuration File
+  template:
+    src: filebeat.yml.j2
+    dest: "{{ filebeat_conf_dir }}/filebeat.yml"
+    owner: root
+    mode: "0640"
+    force: true
+  notify: Restart filebeat

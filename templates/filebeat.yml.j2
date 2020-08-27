@@ -1,0 +1,51 @@
+###################### Filebeat Configuration Example #########################
+
+# This file is an example configuration file highlighting only the most common
+# options. The filebeat.reference.yml file from the same directory contains all the
+# supported options with more comments. You can use it as a reference.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+
+# For more available modules and options, please see the filebeat.reference.yml sample
+# configuration file.
+
+# ============================== Filebeat inputs ===============================
+
+filebeat.inputs:
+{% for input in filebeat_inputs %}
+    - type: {{ input.type }}
+      enabled: {{ input.enabled }}
+    {% if input.fields is defined %}  
+      fields:
+          format: {{ input.fields.format }}
+          source: {{ input.fields.source }}
+    {% endif %}
+      paths:
+    {% for path in input.paths %}  
+      - {{ path }}
+    {% endfor %}
+{% endfor %}    
+
+# ============================== Filebeat modules ==============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+
+
+############################# Output ##########################################
+{% if filebeat_logstash_output is defined %}
+output.logstash:
+    hosts: {{ filebeat_output_hosts }}
+    ssl.certificate_authorities: ["{{ filebeat_output_ssl_ca }}"]
+    ssl.certificate: {{ filebeat_output_ssl_cert }}
+    ssl.key: {{ filebeat_output_ssl_key }}
+{% endif %}    
