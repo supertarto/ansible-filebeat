@@ -10,14 +10,13 @@ filebeat_conf_dir: "/etc/filebeat"
 filebeat_version_lock: false
 
 filebeat_inputs:
-  - |
-    - type: log
-      enabled: false
-      fields:
-        format: csv
-        source: filebeat
-      paths:
-        - "/path/to/your/file"
+  - type: log
+    enabled: false
+    fields:
+      format: csv
+      source: filebeat
+    paths:
+      - "/path/to/your/file"
 
 filebeat_logstash_output: false
 filebeat_output_hosts: somehost
