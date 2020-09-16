@@ -1,5 +1,5 @@
 # Ansible Filebeat
-[![Build Status](https://travis-ci.com/supertarto/ansible-elasticsearch.svg?branch=master)](https://travis-ci.com/supertarto/ansible-elasticsearch)
+[![Build Status](https://travis-ci.com/supertarto/ansible-filebeat.svg?branch=master)](https://travis-ci.com/supertarto/ansible-filebeat)
 
 Install and configure filebeat.
 This role is meant for my small need, so the only output configured in template is logstash for now.
