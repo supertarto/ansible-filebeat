@@ -1,5 +1,5 @@
 # Ansible Filebeat
-[![Build Status](https://travis-ci.com/supertarto/ansible-filebeat.svg?branch=master)](https://travis-ci.com/supertarto/ansible-filebeat)
+[![CI](https://github.com/supertarto/ansible-filebeat/workflows/CI/badge.svg?event=push)](https://github.com/supertarto/ansible-filebeat/actions?query=workflow%3ACI)
 
 Install and configure filebeat.
 This role is meant for my small need, so the only output configured in template is logstash for now.
